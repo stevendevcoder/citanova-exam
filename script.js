@@ -1,3 +1,60 @@
+/*NUEVA FUNCIONALIDAD SELECCION DE SERVICIO*/
+
+console.log("Cargando servicios destacados...");
+
+// Inicializa el sistema al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    loadServicios(); // Carga los servicios destacados
+    loadPositions(); // Carga las posiciones en el selector
+    //updateTeamSelect(); // Carga los equipos en el selector
+    loadServicios();
+});
+
+
+function loadServicios() {
+
+    const solicitarButtons = document.querySelectorAll(".card-btn");
+     console.log("Botones encontrados:", solicitarButtons.length);
+    const selectedServiceContainer = document.querySelector(".servicio-seleccionado");
+    const selectedServiceDetails = selectedServiceContainer.querySelector("#selectedServiceDetails");
+    const placeholderText = document.getElementById("isSeleccionado");
+    const startBtn = selectedServiceContainer.querySelector(".iniciarProceso");
+    let selectedService = null;
+
+    solicitarButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        console.log("Botón de solicitar servicio presionado");
+
+
+        const card = button.closest(".card");
+        const info = card.querySelector(".card-info").cloneNode(true);
+
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Quitar servicio";
+        removeBtn.classList.add("quitar-servicio");
+
+        removeBtn.addEventListener("click", () => {
+          selectedServiceDetails.innerHTML = `<p id="isSeleccionado">Ningún servicio seleccionado.</p>`;
+          selectedService = null;
+        startBtn.style.display = "none"; 
+
+        });
+
+        info.querySelector(".card-btn").remove(); // Elimina botón original
+        info.appendChild(removeBtn); // Agrega botón nuevo
+        selectedServiceDetails.innerHTML = ""; // Limpia contenido previo
+        selectedServiceDetails.appendChild(info); // Muestra selección
+        selectedService = info;
+        startBtn.style.display = "block"; 
+      });
+    });
+}
+
+/*NUEVA FUNCIONALIDAD SELECCION DE SERVICIO*/
+
+
+
+
 // Listas para almacenar datos de jugadores y equipos
 const players = []; // Lista de jugadores
 const teams = []; // Lista de equipos
@@ -110,8 +167,3 @@ function updatePlayerTable() {
     });
 }
 
-// Inicializa el sistema al cargar la página
-document.addEventListener("DOMContentLoaded", () => {
-    loadPositions(); // Carga las posiciones en el selector
-    updateTeamSelect(); // Carga los equipos en el selector
-});
