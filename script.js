@@ -8,23 +8,35 @@ document.addEventListener("DOMContentLoaded", () => {
     loadPositions(); // Carga las posiciones en el selector
     //updateTeamSelect(); // Carga los equipos en el selector
     loadServicios();
+
+    const startBtn = document.querySelector(".iniciarProceso");
+    const warningBox = document.getElementById("warningMessage")
+
+    startBtn.addEventListener("click", () => {
+        if(!window.selectedService){
+            warningBox.style.display = "block";
+            setTimeout(() => {
+                warningBox.style.display = "none";
+            }, 3000);
+        } else {
+            alert("Iniciando proceso de agendamiento");
+        }
+    });
 });
 
 
 function loadServicios() {
 
     const solicitarButtons = document.querySelectorAll(".card-btn");
-     console.log("Botones encontrados:", solicitarButtons.length);
     const selectedServiceContainer = document.querySelector(".servicio-seleccionado");
     const selectedServiceDetails = selectedServiceContainer.querySelector("#selectedServiceDetails");
-    const placeholderText = document.getElementById("isSeleccionado");
     const startBtn = selectedServiceContainer.querySelector(".iniciarProceso");
-    let selectedService = null;
+
+    window.selectedService = null;
 
     solicitarButtons.forEach(button => {
       button.addEventListener("click", () => {
         console.log("Botón de solicitar servicio presionado");
-
 
         const card = button.closest(".card");
         const info = card.querySelector(".card-info").cloneNode(true);
@@ -36,7 +48,7 @@ function loadServicios() {
         removeBtn.addEventListener("click", () => {
           selectedServiceDetails.innerHTML = `<p id="isSeleccionado">Ningún servicio seleccionado.</p>`;
           selectedService = null;
-        startBtn.style.display = "none"; 
+            startBtn.style.display = "none"; 
 
         });
 
